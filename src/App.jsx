@@ -4,16 +4,19 @@ import viteLogo from '/vite.svg'
 import './App.css'
 import { WeatherProvider } from './contexts/WeatherContext';
 import WeatherApp from './components/WeatherApp';
+import { ThemeProvider } from './contexts/ThemeContext';
 
 function App() {
   const [count, setCount] = useState(0)
 
   return (
-    <WeatherProvider>
-      <div className="App">
-        <WeatherApp />
-      </div>
-    </WeatherProvider>
+    <ThemeProvider>
+      <WeatherProvider>
+        <div className="App">
+          <WeatherApp />
+        </div>
+      </WeatherProvider>
+    </ThemeProvider>
   )
 }
 

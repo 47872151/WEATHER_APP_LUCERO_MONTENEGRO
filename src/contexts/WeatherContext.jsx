@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import axios from 'axios';
+const apiKey = import.meta.env.VITE_REACT_APP_WEATHER_API_KEY;
 
 const WeatherContext = createContext();
 
@@ -15,10 +16,14 @@ export function WeatherProvider({ children }) {
     try {
       setIsLoading(true);
       setErrorMessage('');
-      const response = await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=f22f001caecc4e602f066bd4c3acd18c`);
+      const response = await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`);
       setWeatherData(response.data);
     } catch (error) {
-      setErrorMessage('No se pudo obtener el clima actual.');
+      if (error.response && error.response.status === 404) {
+        setErrorMessage('Ciudad no encontrada. Intenta con otra.');
+      } else {
+        setErrorMessage('No se pudo obtener el clima actual.');
+      }
       setWeatherData(null);
       throw error;
     } finally {
@@ -30,10 +35,14 @@ export function WeatherProvider({ children }) {
     try {
       setIsLoading(true);
       setErrorMessage('');
-      const response = await axios.get(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=f22f001caecc4e602f066bd4c3acd18c`);
+      const response = await axios.get(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}`);
       setForecast24h(response.data);
     } catch (error) {
-      setErrorMessage('No se pudo obtener el pronóstico de 24 horas.');
+      if (error.response && error.response.status === 404) {
+        setErrorMessage('Ciudad no encontrada. Intenta con otra.');
+      } else {
+        setErrorMessage('No se pudo obtener el pronóstico de 24 horas.');
+      }
       setForecast24h(null);
       throw error;
     } finally {
@@ -45,10 +54,14 @@ export function WeatherProvider({ children }) {
     try {
       setIsLoading(true);
       setErrorMessage('');
-      const response = await axios.get(`https://api.openweathermap.org/data/2.5/forecast/daily?q=${city}&cnt=5&appid=f22f001caecc4e602f066bd4c3acd18c`);
+      const response = await axios.get(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&cnt=40&appid=${apiKey}`);
       setForecast5d(response.data);
     } catch (error) {
-      setErrorMessage('No se pudo obtener el pronóstico de 5 días.');
+      if (error.response && error.response.status === 404) {
+        setErrorMessage('Ciudad no encontrada. Intenta con otra.');
+      } else {
+        setErrorMessage('No se pudo obtener el pronóstico de 5 días.');
+      }
       setForecast5d(null);
       throw error;
     } finally {
