@@ -4,7 +4,6 @@ import WeatherApp from './components/WeatherApp';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { UnitProvider } from './contexts/UnitContext';
 
-
 function App() {
   return (
     <ThemeProvider>

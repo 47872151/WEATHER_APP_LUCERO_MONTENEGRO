@@ -1,8 +1,8 @@
 import React from 'react';
 import '../css/styles.css';
 
-function CurrentWeather({ data, unit, convertTemp, city }) {
-  if (!data) return <div className="cw-empty">Busca una ciudad para ver el clima.</div>;
+function CurrentWeather({ data, convertTemp, city }) {
+  if (!data) return <div className="cw-empty">Busca una ciudad para ver su clima.</div>;
 
    const localTime = data.dt && data.timezone
     ? new Date((data.dt + data.timezone) * 1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
@@ -14,10 +14,22 @@ function CurrentWeather({ data, unit, convertTemp, city }) {
         <div className="cw-temp">{convertTemp(data.main.temp)}</div>
         <div className="cw-city">{city}</div>
         <div className="cw-time">{localTime}</div>
+        <div className="cw-icon">
+          <img 
+            src={`https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`} 
+            alt={data.weather[0].description} 
+          />
+        </div>
         <div className="cw-desc">{data.weather[0].description}</div>
         <div className="cw-meta">
-          <p>Sensación: {convertTemp(data.main.feels_like)}</p>
-          <p>Viento: {data.wind.speed} m/s</p>
+          <p>
+            <span className="cw-feels-like-icon">🌡️</span> 
+            {convertTemp(data.main.feels_like)}
+          </p>
+          <p>
+            <span className="cw-wind-icon">💨</span> 
+            {data.wind.speed} m/s
+          </p>
         </div>
       </div>
     </div>

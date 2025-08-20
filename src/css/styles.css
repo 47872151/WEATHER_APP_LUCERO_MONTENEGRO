@@ -239,6 +239,11 @@ body, .weather-app {
 }
 
 /* ========== TEMA CLARO ========== */
+body:has(.weather-app.light),
+body.light-theme {
+  background: linear-gradient(180deg, #E8EAF6, #F5F6FA, #E8EAF6);
+}
+
 .weather-app.light {
   background: #F5F6FA;
   color: #1E1E2F;
