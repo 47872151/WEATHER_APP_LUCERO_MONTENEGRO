@@ -11,8 +11,8 @@ function CurrentWeather({ data, unit, convertTemp, city }) {
         <div className="cw-city">{city}</div>
         <div className="cw-desc">{data.weather[0].description}</div>
         <div className="cw-meta">
-          <span>Sensación: {convertTemp(data.main.feels_like)}</span>
-          <span>Viento: {data.wind.speed} m/s</span>
+          <p>Sensación: {convertTemp(data.main.feels_like)}</p>
+          <p>Viento: {data.wind.speed} m/s</p>
         </div>
       </div>
     </div>

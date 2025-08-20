@@ -5,7 +5,7 @@ import { useThemeContext } from "../contexts/ThemeContext";
 import CurrentWeather from "./CurrentWeather";
 import HourlyForecast from "./HourlyForecast";
 import DailyForecast from "./DailyForecast";
-
+import { useUnit } from "../contexts/UnitContext";
 
 function WeatherApp() {
   const CIUDADES = [
@@ -25,10 +25,9 @@ function WeatherApp() {
     fetchWeatherData,
     fetchForecast24h,
     fetchForecast5d,
-    unit,
-    setUnit,
   } = useWeather();
   const { theme, toggleTheme } = useThemeContext();
+  const { unit, setUnit } = useUnit();
 
   const [searchQuery, setSearchQuery] = useState("");
   const [otherCitiesWeather, setOtherCitiesWeather] = useState([]);
@@ -125,50 +124,53 @@ function WeatherApp() {
       </header>
       {isLoading && <div>Cargando...</div>}
       {errorMessage && <div style={{ color: "red" }}>{errorMessage}</div>}
-      <main>
-        <section>
-          <CurrentWeather
-            data={WeatherData}
-            unit={unit}
-            convertTemp={convertTemp}
-            city={currentQuery}
-          />
-        </section>
-        <section>
-          <HourlyForecast
-            data={forecast24h}
-            unit={unit}
-            convertTemp={convertTemp}
-          />
-        </section>
-        <section>
-          <h3>5-day forecast</h3>
-          <DailyForecast
-            data={forecast5d}
-            unit={unit}
-            convertTemp={convertTemp}
-          />
-        </section>
-         <section className="other-cities">
-          {otherCitiesWeather.map((city, idx) => (
-            <div key={idx} className="other-city-card">
-              <div className="city-name">{city.name}</div>
-              <div className="city-country">{city.country}</div>
-              <div className="city-temp">
-                {city.temp != null ? convertTemp(city.temp) : "--"}
-                {city.icon && (
-                  <img
-                    src={`https://openweathermap.org/img/wn/${city.icon}@2x.png`}
-                    alt="icon"
-                    style={{ width: 32, verticalAlign: "middle", marginLeft: 6 }}
-                  />
-                )}
-              </div>
-              <div className="city-desc">{city.desc}</div>
+     <main>
+  <section className="main-top-row">
+    <CurrentWeather
+      data={WeatherData}
+      unit={unit}
+      convertTemp={convertTemp}
+      city={currentQuery}
+    />
+    <HourlyForecast
+      data={forecast24h}
+      unit={unit}
+      convertTemp={convertTemp}
+    />
+  </section>
+  <section className="main-bottom-row">
+    <div className="other-cities-col">
+      <h3>Other Cities</h3>
+      <div className="other-cities">
+        {otherCitiesWeather.map((city, idx) => (
+          <div key={idx} className="other-city-card">
+            <div className="city-name">{city.name}</div>
+            <div className="city-country">{city.country}</div>
+            <div className="city-temp">
+              {city.temp != null ? convertTemp(city.temp) : "--"}
+              {city.icon && (
+                <img
+                  src={`https://openweathermap.org/img/wn/${city.icon}@2x.png`}
+                  alt="icon"
+                  style={{ width: 32, verticalAlign: "middle", marginLeft: 6 }}
+                />
+              )}
             </div>
-          ))}
-        </section>
-      </main>
+            <div className="city-desc">{city.desc}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+    <div className="daily-forecast-col">
+      <h3>5-day forecast</h3>
+      <DailyForecast
+        data={forecast5d}
+        unit={unit}
+        convertTemp={convertTemp}
+      />
+    </div>
+  </section>
+</main>
     </div>
   );
 }

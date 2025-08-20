@@ -5,17 +5,19 @@ import './App.css'
 import { WeatherProvider } from './contexts/WeatherContext';
 import WeatherApp from './components/WeatherApp';
 import { ThemeProvider } from './contexts/ThemeContext';
+import { UnitProvider } from './contexts/UnitContext';
+
 
 function App() {
   const [count, setCount] = useState(0)
 
   return (
     <ThemeProvider>
-      <WeatherProvider>
-        <div className="App">
+      <UnitProvider>
+        <WeatherProvider>
           <WeatherApp />
-        </div>
-      </WeatherProvider>
+        </WeatherProvider>
+      </UnitProvider>
     </ThemeProvider>
   )
 }

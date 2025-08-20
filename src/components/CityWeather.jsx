@@ -10,7 +10,6 @@ function CityWeather() {
     fetchWeatherData,
     fetchForecast24h,
     fetchForecast5d,
-    WeatherData,
     forecast24h,
     forecast5d,
     isLoading,
